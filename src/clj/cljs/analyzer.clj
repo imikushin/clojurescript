@@ -555,7 +555,7 @@
     {:env env :op :var-special :form form
      :var (analyze env sym)
      :sym (analyze env `(quote ~(symbol (name (:ns var)) (name (:name var)))))
-     :meta (let [ks [:ns :doc :file :line :column]
+     :meta (let [ks (set/union #{:ns :doc :file :line :column} (set (keys var)))
                  m (assoc (zipmap ks (map #(list 'quote (get var %)) ks))
                      :name `(quote ~(symbol (name (:name var))))
                      :test `(when ~sym (.-cljs$lang$test ~sym))
